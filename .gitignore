@@ -3,3 +3,13 @@ obj/
 xmr-stak-cpu.layout
 xmr-stak-cpu.depend
 config-debug.txt
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Vim
+*.swp
+cscope.out
