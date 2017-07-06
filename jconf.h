@@ -51,6 +51,8 @@ public:
 
 	uint16_t GetHttpdPort();
 
+        int GetNiceness();
+
 	bool NiceHashMode();
 
 	bool PreferIpv4();

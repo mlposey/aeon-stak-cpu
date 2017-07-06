@@ -36,6 +36,8 @@ void thd_setaffinity(std::thread::native_handle_type h, uint64_t cpu_id)
 }
 #else
 #include <pthread.h>
+#include <unistd.h>
+#include <errno.h>
 
 #if defined(__APPLE__)
 #include <mach/thread_policy.h>
@@ -382,6 +384,20 @@ void minethd::consume_work()
 	iConsumeCnt++;
 }
 
+void minethd::set_niceness()
+{
+        errno = 0;
+        
+        // The program must be run as the superuser for this to work. This
+        // restriction could possibly be lifted, but since aggressive values
+        // here can impact system performance, it is best that only privileged
+        // users can change this.
+        bool hasNicenessFailed = (nice(jconf::inst()->GetNiceness()) == -1) && errno != 0;
+
+        if (hasNicenessFailed)
+                printer::inst()->print_msg(L0, "Could not set niceness level. Try running as sudo.");
+}
+
 void minethd::work_main()
 {
 	cryptonight_ctx* ctx;
@@ -389,6 +405,10 @@ void minethd::work_main()
 	uint64_t* piHashVal;
 	uint32_t* piNonce;
 	job_result result;
+
+#ifndef _WIN32
+        set_niceness();
+#endif
 
 	ctx = minethd_alloc_ctx();
 
@@ -467,6 +487,10 @@ void minethd::double_work_main()
 	uint8_t	bDoubleWorkBlob[sizeof(miner_work::bWorkBlob) * 5];
 	uint32_t iNonce;
 	job_result res;
+
+#ifndef _WIN32
+        set_niceness();
+#endif
 
 	for(int i=0; i<hashes; i++){
 		ctx[i] = minethd_alloc_ctx();

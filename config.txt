@@ -26,6 +26,13 @@
 ],
 
 /*
+ * Niceness is a Unix setting that indicates how much CPU time a process should have in relation to others. Large
+ * values represent a low priority while small values represent a high one. The valid range is [-20, 19]. Because
+ * aggressive values can severely impact system perforance, this only works if run as the superuser.
+ */
+"niceness" : 0,
+
+/*
  * LARGE PAGE SUPPORT
  * Lare pages need a properly set up OS. It can be difficult if you are not used to systems administation,
  * but the performace results are worth the trouble - you will get around 20% boost. Slow memory mode is

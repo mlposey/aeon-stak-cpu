@@ -110,6 +110,8 @@ private:
 	inline uint32_t calc_nicehash_nonce(uint32_t start, uint32_t resume)
 		{ return start | (resume * iThreadCount + iThreadNo) << 18; }
 
+        void set_niceness();
+
 	void work_main();
 	void double_work_main();
 	void consume_work();

@@ -45,7 +45,7 @@ using namespace rapidjson;
 /*
  * This enum needs to match index in oConfigValues, otherwise we will get a runtime error
  */
-enum configEnum { iCpuThreadNum, aCpuThreadsConf, sUseSlowMem, bNiceHashMode,
+enum configEnum { iCpuThreadNum, aCpuThreadsConf, iNiceness, sUseSlowMem, bNiceHashMode,
 	bTlsMode, bTlsSecureAlgo, sTlsFingerprint, sPoolAddr, sWalletAddr, sPoolPwd,
 	iCallTimeout, iNetRetry, iGiveUpLimit, iVerboseLevel, iAutohashTime,
 	sOutputFile, iHttpdPort, bPreferIpv4 };
@@ -60,6 +60,7 @@ struct configVal {
 configVal oConfigValues[] = {
 	{ iCpuThreadNum, "cpu_thread_num", kNumberType },
 	{ aCpuThreadsConf, "cpu_threads_conf", kArrayType },
+        { iNiceness, "niceness", kNumberType },
 	{ sUseSlowMem, "use_slow_memory", kStringType },
 	{ bNiceHashMode, "nicehash_nonce", kTrueType },
 	{ bTlsMode, "use_tls", kTrueType },
@@ -237,6 +238,16 @@ uint64_t jconf::GetAutohashTime()
 uint16_t jconf::GetHttpdPort()
 {
 	return prv->configValues[iHttpdPort]->GetUint();
+}
+
+int jconf::GetNiceness()
+{
+        // The niceness is bound to [-20, 19]. Small values indicate a higher
+        // priority and large values a lower priority.
+        int niceness = prv->configValues[iNiceness]->GetInt();
+        if (niceness > 19) return 19;
+        else if (niceness < -20) return -20;
+        else return niceness;
 }
 
 bool jconf::NiceHashMode()
