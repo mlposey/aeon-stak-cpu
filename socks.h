@@ -61,6 +61,8 @@ inline const char* sock_gai_strerror(int err, char* buf, size_t len)
 #include <errno.h>
 #include <string.h>
 
+#include "unused.h"
+
 inline void sock_init() {}
 typedef int SOCKET;
 
@@ -84,7 +86,7 @@ inline const char* sock_strerror(char* buf, size_t len)
 #endif
 }
 
-inline const char* sock_gai_strerror(int err, char* buf, size_t len)
+inline const char* sock_gai_strerror(int err, char* buf, size_t len UNUSED)
 {
 	buf[0] = '\0';
 	return gai_strerror(err);

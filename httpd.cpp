@@ -31,6 +31,7 @@
 #include "console.h"
 #include "executor.h"
 #include "jconf.h"
+#include "unused.h"
 
 #include "webdesign.h"
 
@@ -48,13 +49,13 @@ httpd::httpd()
 
 }
 
-int httpd::req_handler(void * cls,
+int httpd::req_handler(void * cls UNUSED,
 	        MHD_Connection* connection,
 	        const char* url,
 	        const char* method,
-	        const char* version,
-	        const char* upload_data,
-	        size_t* upload_data_size,
+	        const char* version UNUSED,
+	        const char* upload_data UNUSED,
+	        size_t* upload_data_size UNUSED,
 	        void ** ptr)
 {
 	struct MHD_Response * rsp;

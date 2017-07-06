@@ -26,6 +26,7 @@
 #include "jconf.h"
 #include "console.h"
 #include "executor.h"
+#include "unused.h"
 
 #ifndef CONF_NO_TLS
 #include <openssl/ssl.h>
@@ -159,7 +160,7 @@ bool plain_socket::send(const char* buf)
 	return true;
 }
 
-void plain_socket::close(bool free)
+void plain_socket::close(bool free UNUSED)
 {
 	if(hSocket != INVALID_SOCKET)
 	{
