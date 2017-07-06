@@ -23,7 +23,12 @@ if("${CMAKE_BUILD_TYPE}" STREQUAL "")
 endif()
 
 set(CMAKE_C_FLAGS "-DNDEBUG -march=native -O3 -m64 -s")
+
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -std=c++11")
+
+if(NOT WIN32)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+endif()
 
 set(CMAKE_EXE_LINKER_FLAGS_RELSEASE "")
 set(CMAKE_EXE_LINKER_FLAGS_STATIC "-static-libgcc -static-libstdc++")
